@@ -15,3 +15,5 @@ Contributions for bug fixing or improvements are welcomed. Feel free to submit a
 
 ## License
 Usage is provided under the [MIT License](http://opensource.org/licenses/mit-license.php). See LICENSE for the full details.
+
+__Please visit the <a href="https://github.com/JulesMoorhouse/MMOS">main repo</a> for full information about the MMOS system.__
