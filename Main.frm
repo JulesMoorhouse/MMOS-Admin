@@ -17,7 +17,7 @@ Begin VB.Form frmMain
       Caption         =   "Frame1"
       Height          =   1755
       Left            =   2985
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   5580
       Width           =   7555
       Begin VB.ListBox lstNewFeatures 
@@ -26,7 +26,7 @@ Begin VB.Form frmMain
          Height          =   1500
          IntegralHeight  =   0   'False
          Left            =   0
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   255
          Width           =   7550
       End
@@ -43,7 +43,7 @@ Begin VB.Form frmMain
          EndProperty
          Height          =   240
          Left            =   7290
-         TabIndex        =   16
+         TabIndex        =   15
          TabStop         =   0   'False
          Top             =   20
          Width           =   260
@@ -64,7 +64,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000009&
          Height          =   285
          Left            =   5760
-         TabIndex        =   15
+         TabIndex        =   14
          TabStop         =   0   'False
          Top             =   0
          Width           =   1455
@@ -84,7 +84,7 @@ Begin VB.Form frmMain
          ForeColor       =   &H80000009&
          Height          =   255
          Left            =   0
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   0
          Width           =   7555
       End
@@ -96,8 +96,8 @@ Begin VB.Form frmMain
       TabIndex        =   7
       Top             =   0
       Width           =   10485
-      _extentx        =   18494
-      _extenty        =   1852
+      _ExtentX        =   18494
+      _ExtentY        =   1852
    End
    Begin VB.CommandButton cmdHelp 
       Caption         =   "&Help"
@@ -136,10 +136,10 @@ Begin VB.Form frmMain
    Begin VB.CommandButton cmdSysLists 
       Caption         =   "&System Lists"
       Height          =   360
-      Left            =   6120
+      Left            =   9000
       Style           =   1  'Graphical
       TabIndex        =   1
-      Top             =   2280
+      Top             =   7440
       Visible         =   0   'False
       Width           =   1305
    End
@@ -170,15 +170,15 @@ Begin VB.Form frmMain
       TabIndex        =   6
       Top             =   7215
       Width           =   10485
-      _extentx        =   18494
-      _extenty        =   1244
+      _ExtentX        =   18494
+      _ExtentY        =   1244
    End
    Begin VB.Label Label2 
       Alignment       =   2  'Center
       Caption         =   "If you have any comments or suggestions about this"
       Height          =   255
       Left            =   3060
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   3600
       Width           =   7545
    End
@@ -199,13 +199,13 @@ Begin VB.Form frmMain
       EndProperty
       ForeColor       =   &H00FF0000&
       Height          =   375
-      Left            =   5580
+      Left            =   4830
       MouseIcon       =   "Main.frx":014A
       MousePointer    =   99  'Custom
-      TabIndex        =   11
+      TabIndex        =   10
       ToolTipText     =   "Click me to make contact"
       Top             =   4320
-      Width           =   2475
+      Width           =   3975
    End
    Begin VB.Label lblCover 
       Alignment       =   2  'Center
@@ -223,7 +223,7 @@ Begin VB.Form frmMain
       ForeColor       =   &H000000FF&
       Height          =   375
       Left            =   3000
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   4680
       Visible         =   0   'False
       Width           =   7545
@@ -233,7 +233,7 @@ Begin VB.Form frmMain
       Caption         =   "program or its sister programs, please email :-"
       Height          =   255
       Left            =   3060
-      TabIndex        =   9
+      TabIndex        =   8
       Top             =   3960
       Width           =   7545
    End
@@ -427,16 +427,6 @@ Begin VB.Form frmMain
       Top             =   1125
       Width           =   2775
    End
-   Begin VB.Label lblSysLists 
-      Caption         =   "Available, until Config Program is accessible"
-      ForeColor       =   &H00FF0000&
-      Height          =   255
-      Left            =   5280
-      TabIndex        =   8
-      Top             =   1920
-      Visible         =   0   'False
-      Width           =   3375
-   End
 End
 Attribute VB_Name = "frmMain"
 Attribute VB_GlobalNameSpace = False
@@ -538,6 +528,9 @@ Dim lstrShowFeatures As String
     NameForm Me
 
     lstrShowFeatures = GetSetting(gstrIniAppName, "UI", "ShowFeatures")
+    
+    lblMCLContact.Caption = gstrOurContactWeb
+
     If IsBlank(lstrShowFeatures) Then
         lstrShowFeatures = True
     ElseIf UCase$(lstrShowFeatures) <> "TRUE" Or UCase$(lstrShowFeatures) <> "FALSE" Then
@@ -561,7 +554,6 @@ Dim lstrShowFeatures As String
         cmdOneOffFixes.Enabled = False
         cmdCustomReps.Enabled = False
         cmdSysLists.Visible = False
-        lblSysLists.Visible = False
 
     Case 50 'General Mangers
         cmdLists.Enabled = True
@@ -570,7 +562,6 @@ Dim lstrShowFeatures As String
         cmdOneOffFixes.Enabled = False
         cmdCustomReps.Enabled = False
         cmdSysLists.Visible = False
-        lblSysLists.Visible = False
 
     Case 99 'IS
         cmdLists.Enabled = True
@@ -579,7 +570,6 @@ Dim lstrShowFeatures As String
         cmdOneOffFixes.Enabled = True
         cmdCustomReps.Enabled = True
         cmdSysLists.Visible = True
-        lblSysLists.Visible = True
 
     End Select
     
@@ -623,6 +613,11 @@ Private Sub Form_Resize()
         .Left = 120
     End With
     
+    With cmdSysLists
+        .Top = cmdHelp.Top
+        .Left = (Me.Width - cmdSysLists.Width) - 240
+    End With
+    
     With lblCover
         '.Width = Me.Width
         .Width = Me.Width - 3060
@@ -664,9 +659,10 @@ Private Sub timActivity_Timer()
     
 End Sub
 Private Sub lblMCLContact_Click()
-Dim StartDoc As Long
 
-     StartDoc = ShellExecute(Me.hwnd, "open", "mailto:email@example.com?Subject=MMOS (" & App.ProductName & " " & App.major & "." & App.minor & "." & App.Revision & ") Feedback", _
+   Dim StartDoc As Long
+
+     StartDoc = ShellExecute(Me.hwnd, "open", gstrOurContactWeb, _
        "", "C:\", 1)
 
 End Sub

@@ -33,7 +33,7 @@ Begin VB.Form frmStockView
       Begin VB.CommandButton cmdExportStock 
          Caption         =   "&Export Stock"
          Height          =   360
-         Left            =   3000
+         Left            =   240
          Style           =   1  'Graphical
          TabIndex        =   1
          Top             =   240
